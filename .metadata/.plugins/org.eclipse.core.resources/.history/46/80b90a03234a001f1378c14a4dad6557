@@ -1,0 +1,30 @@
+package edu.pnu.config;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.lang.NonNull;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+public class CustomConfig implements WebMvcConfigurer {
+
+	@Override
+	public void addCorsMappings(@NonNull CorsRegistry registry) {
+		registry.addMapping("/**")	//모든 주소에 대해서
+				.allowedMethods(CorsConfiguration.ALL)	//모든 메소드에 대해서
+				.allowedOrigins(CorsConfiguration.ALL);	//모든 오리진에 대해서
+		
+		registry.addMapping("/board/**")	//board 포함 하부 모든 주소에 대해서
+		.allowedMethods(HttpMethod.GET.name(),
+						HttpMethod.POST.name())	//get&post 메소드에 대해서
+		.allowedOrigins("http://localhost:3000","http://127.0.0.1:3000");
+		
+		registry.addMapping("/member/**")	//member 포함 하부 모든 주소에 대해서
+		.allowedMethods(HttpMethod.GET.name(),
+				HttpMethod.POST.name())	//get&post 메소드에 대해서
+		.allowedOrigins("http://localhost:3000");
+		
+	}
+}
